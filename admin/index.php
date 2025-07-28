@@ -1,4 +1,5 @@
 <?php 
+session_start();
 // require file common 
 require_once '../commons/env.php'; // khai bao bien moi truong 
 require_once '../commons/function.php'; // ham ho tro
@@ -56,6 +57,7 @@ match ($act) {
     'form-sua-quan-tri' => (new AdminTaiKhoanController())->formEditQuanTri(),
     'sua-quan-tri' => (new AdminTaiKhoanController())->postEditQuanTri(),
     'reset-password' => (new AdminTaiKhoanController())->resetPassword(),
+    'xoa-khach-hang' => (new AdminTaiKhoanController())->deleteKhachHang(),
 
     // ==================== Mặc định ====================
     default => http_response_code(404) && exit("404 - Không tìm thấy trang."),

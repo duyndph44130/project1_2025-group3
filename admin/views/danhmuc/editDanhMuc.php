@@ -1,15 +1,21 @@
-<?php include './views/layout/header.php'; ?>
-<?php include './views/layout/navbar.php'; ?>
-<?php include './views/layout/sidebar.php'; ?>
+<?php
+include './views/layout/header.php';
+include './views/layout/navbar.php';
+include './views/layout/sidebar.php';
+
+$error = $_SESSION['errors'] ?? [];
+$old = !empty($error) ? ($_SESSION['old'] ?? []) : [];
+
+unset($_SESSION['errors'], $_SESSION['old']);
+?>
 
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Quản lý Danh Mục</h1>
+                    <h1>Sửa danh mục</h1>
                 </div>
-
             </div>
         </div>
     </section>
@@ -18,39 +24,49 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Sửa danh mục</h3>
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin danh mục</h3>
+                        </div>
+
+                        <form action="<?= BASE_URL_ADMIN . '?act=sua-danh-muc' ?>" method="POST" id="editDanhMucForm">
+                            <input type="hidden" name="id" value="<?= htmlspecialchars($danhmuc['id'] ?? '') ?>">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="ten">Tên danh mục <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control <?= isset($error['ten']) ? 'is-invalid' : '' ?>" 
+                                            id="ten" name="ten" placeholder="Nhập tên danh mục" 
+                                            value="<?= htmlspecialchars($old['ten'] ?? ($danhmuc['ten'] ?? '')) ?>">
+                                    <?php if (isset($error['ten'])): ?>
+                                        <div class="invalid-feedback"><?= $error['ten'] ?></div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="mieuta">Mô tả</label>
+                                    <textarea class="form-control <?= isset($error['mieuta']) ? 'is-invalid' : '' ?>" 
+                                                id="mieuta" name="mieuta" placeholder="Nhập mô tả" rows="4"><?= htmlspecialchars($old['mieuta'] ?? ($danhmuc['mieuta'] ?? '')) ?></textarea>
+                                    <?php if (isset($error['mieuta'])): ?>
+                                        <div class="invalid-feedback"><?= $error['mieuta'] ?></div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ngay_capnhat">Ngày cập nhật <span class="text-danger">*</span></label>
+                                    <input type="datetime-local" class="form-control <?= isset($error['ngay_capnhat']) ? 'is-invalid' : '' ?>" 
+                                            id="ngay_capnhat" name="ngay_capnhat" 
+                                            value="<?= isset($old['ngay_capnhat']) ? date('Y-m-d\TH:i', strtotime($old['ngay_capnhat'])) : ($danhmuc['ngay_capnhat'] ? date('Y-m-d\TH:i', strtotime($danhmuc['ngay_capnhat'])) : date('Y-m-d\TH:i')) ?>">
+                                    <?php if (isset($error['ngay_capnhat'])): ?>
+                                        <div class="invalid-feedback"><?= $error['ngay_capnhat'] ?></div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
 
-                            <form action="<?= BASE_URL_ADMIN . '?act=sua-danh-muc' ?>" method="POST">
-                                <input type="text" name="id" value="<?= $danhmuc['id'] ?>" hidden>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Tên danh mục</label>
-                                        <input type="text" class="form-control" name="ten" value="<?= $danhmuc['ten'] ?>" placeholder="Enter tên danh mục">
-                                        <?php if (isset($error['ten'])) { ?>
-                                            <p class="text-danger"><?= $error['ten'] ?></p>
-                                        <?php } ?>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Mô tả</label>
-                                        <textarea name="mieuta" id="" placeholder="Enter mô tả" class="form-control"> <?= $danhmuc['mieuta'] ?></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Ngày cập nhật</label>
-                                        <input type="datetime-local" class="form-control" name="ngay_capnhat" value="<?= $danhmuc['ngay_capnhat'] ?>">
-                                    </div>
-
-                                </div>
-                                <!-- /.card-body -->
-
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                <a href="<?= BASE_URL_ADMIN ?>?act=danh-muc" class="btn btn-secondary">Quay lại</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -58,8 +74,7 @@
     </section>
 </div>
 
-<?php include './views/layout/footer.php' ?>
+<?php include './views/layout/footer.php'; ?>
 
 </body>
-
 </html>

@@ -16,31 +16,54 @@
             <div class="card card-primary">
                 <div class="card-header"><h3 class="card-title">Khách hàng: <?= $khachHang['ten'] ?></h3></div>
                 <div class="card-body">
+                    <!-- Tên -->
                     <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" class="form-control" name="ten" value="<?= $khachHang['ten'] ?>">
-                        <?php if (isset($error['ten'])): ?><p class="text-danger"><?= $error['ten'] ?></p><?php endif ?>
+                        <input type="text" class="form-control" name="ten" 
+                                value="<?= $_POST['ten'] ?? $khachHang['ten'] ?>">
+                        <?php if (!empty($error['ten'])): ?>
+                            <p class="text-danger"><?= $error['ten'] ?></p>
+                        <?php endif; ?>
                     </div>
+
+                    <!-- Email -->
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" class="form-control" name="email" value="<?= $khachHang['email'] ?>">
-                        <?php if (isset($error['email'])): ?><p class="text-danger"><?= $error['email'] ?></p><?php endif ?>
+                        <input type="email" class="form-control" name="email" 
+                                value="<?= $_POST['email'] ?? $khachHang['email'] ?>">
+                        <?php if (!empty($error['email'])): ?>
+                            <p class="text-danger"><?= $error['email'] ?></p>
+                        <?php endif; ?>
                     </div>
+
+                    <!-- Điện thoại -->
                     <div class="form-group">
                         <label>Điện thoại</label>
-                        <input type="text" class="form-control" name="dien_thoai" value="<?= $khachHang['dien_thoai'] ?>">
-                        <?php if (isset($error['dien_thoai'])): ?><p class="text-danger"><?= $error['dien_thoai'] ?></p><?php endif ?>
+                        <input type="text" class="form-control" name="dien_thoai" 
+                                value="<?= $_POST['dien_thoai'] ?? $khachHang['dien_thoai'] ?>">
+                        <?php if (!empty($error['dien_thoai'])): ?>
+                            <p class="text-danger"><?= $error['dien_thoai'] ?></p>
+                        <?php endif; ?>
                     </div>
+
+                    <!-- Địa chỉ -->
                     <div class="form-group">
                         <label>Địa chỉ</label>
-                        <input type="text" class="form-control" name="dia_chi" value="<?= $khachHang['dia_chi'] ?>">
-                        <?php if (isset($error['dia_chi'])): ?><p class="text-danger"><?= $error['dia_chi'] ?></p><?php endif ?>
+                        <input type="text" class="form-control" name="dia_chi" 
+                                value="<?= $_POST['dia_chi'] ?? $khachHang['dia_chi'] ?>">
+                        <?php if (!empty($error['dia_chi'])): ?>
+                            <p class="text-danger"><?= $error['dia_chi'] ?></p>
+                        <?php endif; ?>
                     </div>
+
+                    <!-- Thành phố -->
                     <div class="form-group">
                         <label>Thành phố</label>
-                        <input type="text" class="form-control" name="thanhpho" value="<?= $khachHang['thanhpho'] ?>">
+                        <input type="text" class="form-control" name="thanhpho" 
+                                value="<?= $_POST['thanhpho'] ?? $khachHang['thanhpho'] ?>">
                     </div>
                 </div>
+
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary">Lưu</button>
                 </div>

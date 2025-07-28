@@ -2,126 +2,100 @@
 <?php include './views/layout/navbar.php'; ?>
 <?php include './views/layout/sidebar.php'; ?>
 
+<?php
+$error = $_SESSION['errors'] ?? [];
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['errors'], $_SESSION['old']);
+?>
+
 <div class="content-wrapper">
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Quan ly sản phẩm</h1>
-                </div>
-
-            </div>
-        </div>
+        <div class="container-fluid"><h1>Thêm sản phẩm</h1></div>
     </section>
 
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Thêm sản phẩm</h3>
-                            </div>
+        <form action="<?= BASE_URL_ADMIN . '?act=them-san-pham' ?>" method="POST" enctype="multipart/form-data" class="card card-primary">
+            <div class="card-header"><h3 class="card-title">Thông tin sản phẩm</h3></div>
+            <div class="card-body">
+            <?php
+            function inputError($name, $error) {
+                return !empty($error[$name]) ? 'is-invalid' : '';
+            }
+            function errorText($name, $error) {
+                return !empty($error[$name]) ? '<div class="invalid-feedback">' . $error[$name] . '</div>' : '';
+            }
+            ?>
 
-                            <form action="<?= BASE_URL_ADMIN . '?act=them-san-pham' ?>" method="POST" enctype="multipart/form-data">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                        <input type="text" class="form-control" name="ten" placeholder="Enter tên sản phẩm">
-                                        <?php if (isset($error['ten'])) { ?>
-                                            <p class="text-danger"><?= $error['ten'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Giá sản phẩm</label>
-                                        <input type="number" class="form-control" name="gia_coso" placeholder="Enter giá sản phẩm">
-                                        <?php if (isset($error['gia_coso'])) { ?>
-                                            <p class="text-danger"><?= $error['gia_coso'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Hình ảnh</label>
-                                        <input type="file" class="form-control" name="hinhanh" placeholder="Enter hình ảnh">
-                                        <?php if (isset($error['hinhanh'])) { ?>
-                                            <p class="text-danger"><?= $error['hinhanh'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for="exampleInputEmail1">Số lượng</label>
-                                        <input type="number" class="form-control" name="cosan_stock" placeholder="Enter số lượng">
-                                        <?php if (isset($error['cosan_stock'])) { ?>
-                                            <p class="text-danger"><?= $error['cosan_stock'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Ngày nhập</label>
-                                        <input type="datetime-local" class="form-control" name="ngay_capnhat" placeholder="Enter hình ảnh">
-                                        <?php if (isset($error['ngay_capnhat'])) { ?>
-                                            <p class="text-danger"><?= $error['ngay_capnhat'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for="exampleInputEmail1">Danh mục</label>
-                                        <select class="form-control" name="id_danhmuc" id="exampleFormControlSeclect1">
-                                            <option selected disabled>Chọn danh mục sản phẩm</option>
-
-                                            <?php foreach ($listDanhMuc as $danhMuc): ?>
-                                                <option value="<?= $danhMuc['id'] ?>"><?= $danhMuc['ten'] ?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                        <?php if (isset($error['id'])) { ?>
-                                            <p class="text-danger"><?= $error['id'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Mã hàng</label>
-                                        <input type="text" class="form-control" name="ma_hang" placeholder="Enter mã hàng">
-                                        <?php if (isset($error['ma_hang'])) { ?>
-                                            <p class="text-danger"><?= $error['ma_hang'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Trạng thái</label>
-                                        <select class="form-control" name="trang_thai" id="exampleFormControlSeclect1">
-                                            <option selected disabled>Chọn trạng thái</option>
-                                            <option value="1">Có sẵn</option>
-                                            <option value="2">Hết hàng</option>
-                                        </select>
-                                        <?php if (isset($error['trang_thai'])) { ?>
-                                            <p class="text-danger"><?= $error['trang_thai'] ?></p>
-                                        <?php } ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Mô tả</label>
-                                        <textarea name="mota" id="" placeholder="Enter mô tả" class="form-control"></textarea>
-                                    </div>
-
-                                </div>
-                                <!-- /.card-body -->
-
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input type="text" class="form-control <?= inputError('ten', $error) ?>" name="ten" value="<?= htmlspecialchars($old['ten'] ?? '') ?>">
+                <?= errorText('ten', $error) ?>
             </div>
+
+            <div class="form-group">
+                <label>Giá cơ sở</label>
+                <input type="number" class="form-control <?= inputError('gia_coso', $error) ?>" name="gia_coso" value="<?= htmlspecialchars($old['gia_coso'] ?? '') ?>">
+                <?= errorText('gia_coso', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Hình ảnh</label>
+                <input type="file" class="form-control <?= inputError('hinhanh', $error) ?>" name="hinhanh">
+                <?= errorText('hinhanh', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng</label>
+                <input type="number" class="form-control <?= inputError('cosan_stock', $error) ?>" name="cosan_stock" value="<?= htmlspecialchars($old['cosan_stock'] ?? '') ?>">
+                <?= errorText('cosan_stock', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Ngày cập nhật</label>
+                <input type="datetime-local" class="form-control <?= inputError('ngay_capnhat', $error) ?>" name="ngay_capnhat" value="<?= htmlspecialchars($old['ngay_capnhat'] ?? '') ?>">
+                <?= errorText('ngay_capnhat', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Danh mục</label>
+                <select class="form-control <?= inputError('id_danhmuc', $error) ?>" name="id_danhmuc">
+                <option disabled selected>-- Chọn danh mục --</option>
+                <?php foreach ($listDanhMuc as $dm): ?>
+                    <option value="<?= $dm['id'] ?>" <?= ($old['id_danhmuc'] ?? '') == $dm['id'] ? 'selected' : '' ?>><?= $dm['ten'] ?></option>
+                <?php endforeach; ?>
+                </select>
+                <?= errorText('id_danhmuc', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Mã hàng</label>
+                <input type="text" class="form-control <?= inputError('ma_hang', $error) ?>" name="ma_hang" value="<?= htmlspecialchars($old['ma_hang'] ?? '') ?>">
+                <?= errorText('ma_hang', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Trạng thái</label>
+                <select class="form-control <?= inputError('trang_thai', $error) ?>" name="trang_thai">
+                <option disabled selected>-- Chọn trạng thái --</option>
+                <option value="1" <?= ($old['trang_thai'] ?? '') == 1 ? 'selected' : '' ?>>Có sẵn</option>
+                <option value="2" <?= ($old['trang_thai'] ?? '') == 2 ? 'selected' : '' ?>>Hết hàng</option>
+                </select>
+                <?= errorText('trang_thai', $error) ?>
+            </div>
+
+            <div class="form-group">
+                <label>Mô tả</label>
+                <textarea name="mota" class="form-control"><?= htmlspecialchars($old['mota'] ?? '') ?></textarea>
+            </div>
+            </div>
+
+            <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+            </div>
+        </form>
         </div>
     </section>
 </div>
 
-<?php include './views/layout/footer.php' ?>
-
-</body>
-
-</html>
+<?php include './views/layout/footer.php'; ?>
