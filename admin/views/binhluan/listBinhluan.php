@@ -26,6 +26,7 @@
                                         <th>Nội dung</th>
                                         <th>ID Sản phẩm</th>
                                         <th>ID Người dùng</th>
+                                        <th>Trạng thái</th>
                                         <th>Ngày tạo</th>
                                         <th>Thao tác</th>
                                     </tr>
@@ -37,9 +38,12 @@
                                             <td><?= htmlspecialchars($binhluan['noi_dung']) ?></td>
                                             <td><?= $binhluan['id_san_pham'] ?></td>
                                             <td><?= $binhluan['id_nguoi_dung'] ?></td>
+                                            <td><?= $binhluan['trang_thai'] == 0 ? 'Ẩn' : 'Đã duyệt'?></td>
                                             <td><?= $binhluan['ngay_dang'] ?></td>
                                             <td>
-                                                <a href="<?= BASE_URL_ADMIN . '?act=xoa-binh-luan&id_binhluan=' . $binhluan['id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa bình luận này?')">
+                                                <a href="<?= BASE_URL_ADMIN . '?act=edit-trangthai&id_binhluan=' . $binhluan['id'] ?>">
+                                                    <button class="btn btn-danger">Sửa</button>
+                                                </a>                                                <a href="<?= BASE_URL_ADMIN . '?act=xoa-binh-luan&id_binhluan=' . $binhluan['id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa bình luận này?')">
                                                     <button class="btn btn-danger">Xóa</button>
                                                 </a>
                                             </td>

@@ -43,11 +43,13 @@ match ($act) {
 
     // ==================== Bình luận ====================
     'binh-luan' => (new AdminBinhLuanController())->danhSachBinhLuan(),
+    'edit-trangthai'=> (new AdminBinhLuanController())->formEditTrangThaiBinhLuan(),
     'xoa-binh-luan' => (new AdminBinhLuanController())->deleteBinhLuan(),
 
     // ==================== Đơn hàng ====================
     'don-hang' => (new AdminDonHangController())->danhSachDonHang(),
     'chi-tiet-va-sua-don-hang' => (new AdminDonHangController())->detailAndEditDonHang(),
+    'cap-nhat-trang-thai-binh-luan' => (new AdminBinhLuanController())->updateTrangThai(),
     'sua-don-hang' => (new AdminDonHangController())->postEditDonHang(),
 
     // ==================== Quản trị viên ====================
