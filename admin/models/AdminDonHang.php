@@ -9,7 +9,9 @@ class AdminDonHang {
 
     public function getAllDonHang() {
         try {
-            $sql = "SELECT * FROM orders ORDER BY id DESC";
+            $sql = " SELECT o.*, COALESCE(SUM(ct.so_luong * ct.don_gia), 0) AS tong_tien
+            FROM orders o LEFT JOIN chi_tiet_don_hang ct ON o.id = ct.id_donhang
+            GROUP BY o.id ORDER BY o.id DESC";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -85,6 +87,24 @@ class AdminDonHang {
             return true;
         } catch (Exception $e) {
             echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function getLatest($limit = 5) {
+        try {
+            $sql = "SELECT o.*, SUM(ct.so_luong * ct.gia) AS tong_tien
+            FROM orders o
+            LEFT JOIN chi_tiet_don_hang ct ON o.id = ct.id_donhang
+            GROUP BY o.id
+            ORDER BY o.ngay_dathang DESC
+            LIMIT :limit";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Lỗi getLatest: " . $e->getMessage());
+            return [];
         }
     }
 

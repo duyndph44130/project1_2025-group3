@@ -140,4 +140,17 @@ class AdminSanPham
             return false;
         }
     }
+
+    public function getLatest($limit = 5)
+    {
+        $sql = "SELECT p.*, c.ten AS ten_danhmuc 
+                FROM product p
+                LEFT JOIN category c ON p.id_danhmuc = c.id
+                ORDER BY p.ngay_capnhat DESC
+                LIMIT :limit";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

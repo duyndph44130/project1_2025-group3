@@ -10,6 +10,7 @@ require_once './controller/AdminDanhMucController.php';
 require_once './controller/AdminBinhLuanController.php';
 require_once './controller/AdminDonHangController.php';
 require_once './controller/AdminTaiKhoanController.php';
+require_once './controller/AdminBaoCaoThongKeController.php';
 
 // require toan bo file model
 require_once './models/AdminSanPham.php';
@@ -23,7 +24,7 @@ $act = $_GET['act'] ?? '/';
 
 match ($act) {
     // Trang chủ
-    '/' => (new AdminDanhMucController())->danhSachDanhMuc(),
+    '/' => (new AdminBaoCaoThongKeController())->home(),
 
     // ==================== Danh mục ====================
     'danh-muc' => (new AdminDanhMucController())->danhSachDanhMuc(),
@@ -60,6 +61,12 @@ match ($act) {
     'sua-quan-tri' => (new AdminTaiKhoanController())->postEditQuanTri(),
     'reset-password' => (new AdminTaiKhoanController())->resetPassword(),
     'xoa-khach-hang' => (new AdminTaiKhoanController())->deleteKhachHang(),
+
+    // ==================== Đăng nhập =======================
+    'login-admin' => (new AdminTaiKhoanController())->formLogin(),
+    'check-login-admin' => (new AdminTaiKhoanController())->login(),
+    'logout-admin' => (new AdminTaiKhoanController())->logout(),
+
 
     // ==================== Mặc định ====================
     default => http_response_code(404) && exit("404 - Không tìm thấy trang."),
