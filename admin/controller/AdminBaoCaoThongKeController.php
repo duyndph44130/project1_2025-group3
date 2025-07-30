@@ -11,7 +11,7 @@ class AdminBaoCaoThongKeController
 
         $listDanhMuc = $modelDanhMuc->getAllDanhMuc();
         $listSanPham = $modelSanPham->getLatest();
-        $listKhachHang = $modelKhachHang->getAllTaiKhoan('user');
+        $listKhachHang = $modelKhachHang->getAllTaiKhoan('admin');
         $listOrders = $modelDonHang->getLatest();
         $listBinhLuan = $modelBinhLuan->getLatest();        
         require_once './views/home.php';
