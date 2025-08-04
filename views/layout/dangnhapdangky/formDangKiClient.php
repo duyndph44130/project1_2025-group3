@@ -85,7 +85,7 @@
 <body>
     <div class="container">
         <h2>Đăng ký tài khoản</h2>
-        <form action="<?= BASE_URL . '?act=check-dang-ki-client' ?>" method="post">
+        <form action="<?= BASE_URL . '?act=check-dang-ki-client' ?>" method="POST">
 <!-- Họ -->
         <label for="ho">Họ: </label>
         <input type="text" id="ho" name="ho">
@@ -114,7 +114,7 @@
         <label for="dien_thoai">Điện thoại:</label>
         <input type="text" id="dien_thoai" name="dien_thoai">
         <span class="error-message">
-            <?= !empty($_SESSION['errors']['emadien_thoaiil']) ? $_SESSION['errors']['dien_thoai'] : '' ?>
+            <?= !empty($_SESSION['errors']['dien_thoai']) ? $_SESSION['errors']['dien_thoai'] : '' ?>
         </span>
 <!-- Địa chỉ -->
         <label for="dia_chi">Địa chỉ:</label>

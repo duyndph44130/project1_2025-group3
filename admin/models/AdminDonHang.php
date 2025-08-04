@@ -9,14 +9,14 @@ class AdminDonHang {
 
     public function getAllDonHang() {
         try {
-            $sql = " SELECT o.*, COALESCE(SUM(ct.so_luong * ct.don_gia), 0) AS tong_tien
-            FROM orders o LEFT JOIN chi_tiet_don_hang ct ON o.id = ct.id_donhang
-            GROUP BY o.id ORDER BY o.id DESC";
+            $sql = "SELECT * FROM orders ORDER BY id DESC LIMIT 0, 25";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         } catch (PDOException $e) {
-            echo "Lỗi: " . $e->getMessage();
+            error_log("Lỗi getAllDonHang: " . $e->getMessage());
+            return [];
         }
     }
 

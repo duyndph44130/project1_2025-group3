@@ -9,10 +9,10 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="./assets/dist/img/user5-128x128.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/043/900/708/small/user-profile-icon-illustration-vector.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a href="<?= BASE_URL_ADMIN . '' ?>" class="d-block text-lg">hehe</a>
+            <a href="<?= BASE_URL_ADMIN . '' ?>" class="d-block text-lg">Admin</a>
         </div>
         </div>
 
@@ -53,7 +53,7 @@
 
             <li class="nav-item">
             <a href="<?= BASE_URL_ADMIN . '?act=don-hang' ?>" class="nav-link">
-                <i class="fas fa-file-invoice-dollar"></i>
+                <i class="fas fa-file-invoice-dollar" style="padding: 0 10px 0 7px;"></i>
                 <p>
                 Đơn hàng
                 </p>
@@ -68,6 +68,7 @@
                 </p>
             </a>
             </li>
+            
             <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user"></i>

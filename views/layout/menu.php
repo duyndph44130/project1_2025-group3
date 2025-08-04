@@ -5,7 +5,7 @@
     <div class="flex items-center space-x-3">
       <img src="./img/logo.png" alt="Logo" class="w-20 h-20">
       <a href="<?= BASE_URL ?>">
-        <h1 class="text-4xl font-bold tracking-wide">TRENDING</h1>
+        <h1 class="text-4xl font-bold tracking-wide">3TV</h1>
       </a>
     </div>
 

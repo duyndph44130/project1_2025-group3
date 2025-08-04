@@ -24,12 +24,17 @@ match ($act) {
     '/' => (new HomeController())->home(),
     'home' => (new HomeController())->home(),
 
-    //đăng nhập và đăng ký
+    // Đăng nhập / đăng ký
     'form-dang-ki-client' => (new DangNhapClientController())->formdangki(),
     'check-dang-ki-client' => (new DangNhapClientController())->dangki(),
     'form-dang-nhap-client' => (new DangNhapClientController())->formdangnhap(),
     'check-dang-nhap-client' => (new DangNhapClientController())->dangnhap(),
     'log-out-client' => (new DangNhapClientController())->logoutclient(),
+
+    //Chi tiết tài khoản
+    'chi-tiet-tai-khoan-client' => (new dangNhapClientController())->chiTietTaiKhoanClient(),
+    'form-sua-thong-tin-client' => (new dangNhapClientController())->formSuaThongTinClient(),
+    'sua-thong-tin-client' => (new dangNhapClientController())->suaThongTinClient(),
 
     //Chi tiết sản phẩm
     'san-pham' => (new SanPhamController())->show(),
@@ -50,5 +55,8 @@ match ($act) {
     'huy-don-hang' => (new SanPhamController())->huyDonHang(),
 
     'search' => (new SanPhamController())->search(),
+
+    default => die('404 - Không tìm thấy trang'),
+
 
 };

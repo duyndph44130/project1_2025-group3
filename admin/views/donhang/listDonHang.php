@@ -36,23 +36,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($listDonHang as $key => $donHang): ?>
-                                        <tr>
-                                            <td><?= $key + 1 ?></td>
-                                            <td><?= $donHang['id_KH'] ?></td>
-                                            <td><?= $donHang['ten'] ?></td>
-                                            <td>0<?= $donHang['dien_thoai'] ?></td>
-                                            <td><?= $donHang['dia_chi'] ?></td>
-                                            <td><?= $donHang['tong_gia'] ?></td>
-                                            <td><?= $donHang['trangthai'] ?></td>
-
-                                            <td>
-                                                <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-va-sua-don-hang&id_donhang=' . $donHang['id'] ?>">
-                                                    <button class="btn btn-primary">Chi tiết / Sửa</button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach ?>
+                                    <?php if (!empty($listDonHang)): ?>
+                                        <?php foreach ($listDonHang as $key => $donHang): ?>
+                                            <tr>
+                                                <td><?= $key + 1 ?></td>
+                                                <td><?= $donHang['id_KH'] ?></td>
+                                                <td><?= $donHang['ten'] ?></td>
+                                                <td>0<?= $donHang['dien_thoai'] ?></td>
+                                                <td><?= $donHang['dia_chi'] ?></td>
+                                                <td><?= number_format($donHang['tong_gia'], 0, ',', '.') ?>đ</td>
+                                                <td><?= $donHang['trangthai'] ?></td>
+                                                <td>
+                                                    <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-va-sua-don-hang&id_donhang=' . $donHang['id'] ?>">
+                                                        <button class="btn btn-primary">Chi tiết / Sửa</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    <?php else: ?>
+                                        <tr><td colspan="8" class="text-center">Không có đơn hàng nào.</td></tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
