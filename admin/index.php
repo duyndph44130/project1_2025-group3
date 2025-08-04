@@ -53,14 +53,21 @@ match ($act) {
     'cap-nhat-trang-thai-binh-luan' => (new AdminBinhLuanController())->updateTrangThai(),
     'sua-don-hang' => (new AdminDonHangController())->postEditDonHang(),
 
-    // ==================== Quản trị viên ====================
-    'quan-tri' => (new AdminTaiKhoanController())->danhSachQuanTri(),
+    // ====== Quản trị viên ======
+    'list-tai-khoan-quan-tri' => (new AdminTaiKhoanController())->danhSachQuanTri(),
     'form-them-quan-tri' => (new AdminTaiKhoanController())->formAddQuanTri(),
     'them-quan-tri' => (new AdminTaiKhoanController())->postQuanTri(),
     'form-sua-quan-tri' => (new AdminTaiKhoanController())->formEditQuanTri(),
     'sua-quan-tri' => (new AdminTaiKhoanController())->postEditQuanTri(),
     'reset-password' => (new AdminTaiKhoanController())->resetPassword(),
+
+    // ====== Khách hàng ======
+    'list-tai-khoan-khach-hang' => (new AdminTaiKhoanController())->danhSachKhachHang(),
+    'form-sua-khach-hang' => (new AdminTaiKhoanController())->formEditKhachHang(),
+    'sua-khach-hang' => (new AdminTaiKhoanController())->postEditKhachHang(),
     'xoa-khach-hang' => (new AdminTaiKhoanController())->deleteKhachHang(),
+    'chi-tiet-khach-hang' => (new AdminTaiKhoanController())->detailKhachHang(),
+
 
     // ==================== Đăng nhập =======================
     'login-admin' => (new AdminTaiKhoanController())->formLogin(),
