@@ -1,17 +1,6 @@
 <?php require_once 'layout/header.php' ?>
 <?php require_once 'layout/menu.php' ?>
 
-
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thanh Toán</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
 <body class="bg-pink-50 p-8 overflow-x-hidden">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-8">
         <form action="?act=xu-li-thanh-toan" method="POST">
@@ -87,4 +76,3 @@
     </script>
 </body>
 
-</html>

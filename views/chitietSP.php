@@ -1,15 +1,6 @@
 <?php require_once 'layout/header.php' ?>
 <?php require_once 'layout/menu.php' ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
 <body class="overflow-x-hidden">
     <div class="container mx-auto px-4 py-8 ">
         <div class="flex flex-wrap md:flex-nowrap gap-8">
@@ -154,4 +145,3 @@
 </body>
 <?php require_once 'layout/footer.php' ?>
 
-</html>

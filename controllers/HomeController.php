@@ -19,6 +19,7 @@ class HomeController
     {
         $listSanPham = $this->modelSanPham->getAllSanPham();
         $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
+        $sanPhamMoi = $this->modelSanPham->getSanPhamMoiNhat(8); // VD: lấy 8 sp mới nhất
 
         // Gửi dữ liệu sang view
         require_once './views/home.php';

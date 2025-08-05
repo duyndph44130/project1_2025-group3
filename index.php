@@ -9,6 +9,7 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 require_once './controllers/HomeController.php';
 require_once './controllers/SanPhamController.php';
 require_once './controllers/dangNhapClientController.php';
+require_once './controllers/DichVuController.php';
 
 // Require toàn bộ file Models
 require_once './models/SanPham.php';
@@ -23,6 +24,13 @@ $act = $_GET['act'] ?? '/';
 match ($act) {
     '/' => (new HomeController())->home(),
     'home' => (new HomeController())->home(),
+
+
+    //giao diện tĩnh
+    'form-khuyen-mai' => (new DichVuController())->formKhuyenMai(),
+    'gioi-thieu' => (new DichVuController())->gioiThieu(),
+    'lien-he' => (new DichVuController())->lienHe(),
+
 
     // Đăng nhập / đăng ký
     'form-dang-ki-client' => (new DangNhapClientController())->formdangki(),
@@ -40,6 +48,8 @@ match ($act) {
     'san-pham' => (new SanPhamController())->show(),
     'chi-tiet-sp' => (new SanPhamController())->chitietSP(),
     'them-binh-luan' => (new SanPhamController())->themBinhLuan(),
+    'danh-sach-san-pham' => (new SanPhamController())->danhSachSanPham(),
+    
     //Giỏ hàng
     'them-gio-hang' => (new SanPhamController())->addGioHang(),
     'gio-hang' => (new SanPhamController())->gioHang(),
@@ -51,6 +61,7 @@ match ($act) {
 
     //Lich su mua hang
     'lich-su-mua-hang' => (new SanPhamController())->lichSuMuaHang(),
+    'cap-nhat-gio-hang' => (new SanPhamController())->capNhatGioHang(),
     'chi-tiet-mua-hang' => (new SanPhamController())->chiTietMuaHang(),
     'huy-don-hang' => (new SanPhamController())->huyDonHang(),
 

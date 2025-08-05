@@ -16,4 +16,19 @@ class DanhMuc {
             echo "Thất bại: " . $e->getMessage();
         }
     }
+
+    public function getOneDanhMuc($id)
+    {
+        try {
+            $sql = "SELECT * FROM category WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch();
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+            return null;
+        }
+    }
+
 }

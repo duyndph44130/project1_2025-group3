@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="<?= BASE_URL_ADMIN . '' ?>" class="brand-link text-center">
-        <span class="brand-text font-weight-light text-xl">Admin</span>
+        <span class="brand-text font-weight-light text-xl">3TV</span>
     </a>
 
     <!-- Sidebar -->

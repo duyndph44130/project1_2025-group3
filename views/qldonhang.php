@@ -1,17 +1,6 @@
 <?php require_once 'layout/header.php' ?>
 <?php require_once 'layout/menu.php' ?>
 
-
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Sử Mua Hàng</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
 <body class="bg-pink-100 font-sans">
     <div class="container mx-auto p-6">
         <h2 class="text-3xl font-bold text-pink-600 text-center mb-6">Lịch Sử Mua Hàng </h2>
@@ -67,4 +56,14 @@
     </script>
 </body>
 
-</html>
+
+<?php if (!empty($_SESSION['success_message'])): ?>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: '<?= $_SESSION['success_message'] ?>',
+        confirmButtonText: 'OK'
+    });
+</script>
+<?php unset($_SESSION['success_message']); endif; ?>

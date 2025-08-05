@@ -62,6 +62,9 @@ class dangNhapClientController
 
             $vai_tro = 'khach hang';
             $this->modelDangNhap->checkdangki($ho, $ten, $email, $mat_khau, $dien_thoai, $dia_chi, $thanhpho, $vai_tro, $ngay_capnhat);
+            
+            $_SESSION['success_message'] = "Đăng ký thành công!";
+
             header('Location: ' . BASE_URL . '?act=form-dang-nhap-client');
             exit();
         }
@@ -76,34 +79,41 @@ class dangNhapClientController
 
     public function dangnhap()
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = $_POST['email'];
-            $mat_khau = $_POST['mat_khau'];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = trim($_POST['email'] ?? '');
+            $mat_khau = $_POST['mat_khau'] ?? '';
 
             $errors = [];
-            if(empty($email)) {
-                $errors['email'] = 'Email la bat buoc';
+
+            // Kiểm tra dữ liệu nhập vào
+            if (empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'Email là bắt buộc và phải đúng định dạng "@".';
             }
-            if(empty($mat_khau)) {
-                $errors['mat_khau'] = 'Password la bat buoc';
+
+            if (empty($mat_khau)) {
+                $errors['mat_khau'] = 'Mật khẩu là bắt buộc';
             }
-            if(empty($errors)) {
-                $user = $this->modelDangNhap->checkLoginClient($email, $mat_khau);
-            } else {
+
+            // Nếu có lỗi => trả về form kèm thông báo lỗi
+            if (!empty($errors)) {
                 $_SESSION['errors'] = $errors;
                 header('Location: ' . BASE_URL . '?act=form-dang-nhap-client');
                 exit();
             }
 
-            if(is_array($user) && $user['email'] === $email) {
+            // Chỉ gọi model nếu không có lỗi input
+            $user = $this->modelDangNhap->checkLoginClient($email, $mat_khau);
+
+            if (is_array($user) && isset($user['email']) && $user['email'] === $email) {
                 $_SESSION['user_client'] = $user;
+                $_SESSION['success_message'] = "Đăng nhập thành công!";
                 $_SESSION['flash_message'] = 'Xin chào: ' . $user['ten'];
                 session_write_close();
+
                 header('Location: ' . BASE_URL);
                 exit();
             } else {
-                $_SESSION['errors']['login'] = 'Email hoặc mật khẩu không đúng';
-                $_SESSION['flash'] = true;
+                $_SESSION['error_message'] = 'Email hoặc mật khẩu không đúng';
                 header('Location: ' . BASE_URL . '?act=form-dang-nhap-client');
                 exit();
             }
@@ -115,7 +125,7 @@ class dangNhapClientController
         if(isset($_SESSION['user_client'])) {
             unset($_SESSION['user_client']);
 
-            $_SESSION['flash_message'] = 'Dang xuat thanh cong';
+            $_SESSION['success_message'] = 'Đăng xuất thành công!';
             header('Location: ' . BASE_URL . '?act=home');
         } else {
             header('Location: ' . BASE_URL . 'act=/');
@@ -135,7 +145,7 @@ class dangNhapClientController
 
             require_once './views/layout/chiTietTaiKhoan/formChiTietTaiKhoanClient.php';
         } else {
-            echo "Ban chua dang nhap";
+            $_SESSION['warning_message'] = 'Bạn chưa đăng nhập!';
         }
     }
 
@@ -185,7 +195,7 @@ class dangNhapClientController
             if(empty($errors)) {
                 $user = $this->modelDangNhap->updateUser($id, $ten, $email, $dien_thoai, $dia_chi, $mat_khau);
 
-                $_SESSION['flash_message'] = 'Cập nhật thông tin thành công!';
+                $_SESSION['success_message'] = 'Cập nhật thông tin thành công!';
                 header('location: ?act=chi-tiet-tai-khoan-client');
                 exit(); 
             }

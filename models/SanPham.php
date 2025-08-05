@@ -19,6 +19,136 @@ class SanPham {
         }
     }
 
+    public function filterSanPham($search, $danhmuc, $gia_min, $gia_max)
+    {
+        $sql = "SELECT * FROM product WHERE 1=1";
+
+        if (!empty($search)) {
+            $sql .= " AND ten LIKE :search";
+        }
+        if (!empty($danhmuc)) {
+            $sql .= " AND id_danhmuc = :danhmuc";
+        }
+        if (!empty($gia_min)) {
+            $sql .= " AND gia_coso >= :gia_min";
+        }
+        if (!empty($gia_max)) {
+            $sql .= " AND gia_coso <= :gia_max";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($search)) $stmt->bindValue(':search', '%' . $search . '%');
+        if (!empty($danhmuc)) $stmt->bindValue(':danhmuc', $danhmuc);
+        if (!empty($gia_min)) $stmt->bindValue(':gia_min', $gia_min);
+        if (!empty($gia_max)) $stmt->bindValue(':gia_max', $gia_max);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+    public function getSanPhamMoiNhat($limit = 8) {
+        $sql = "SELECT * FROM product WHERE ngay_capnhat >= CURDATE() - INTERVAL 30 DAY ORDER BY ngay_capnhat DESC LIMIT $limit";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getSanPhamDaLoc($limit, $offset, $sort = 'asc', $search = '', $category_id = null, $gia_min = null, $gia_max = null)
+    {
+        $sql = 'SELECT product.*, category.ten AS ten_danhmuc
+                FROM product
+                JOIN category ON product.id_danhmuc = category.id
+                WHERE 1';
+
+        if (!empty($search)) {
+            $sql .= ' AND product.ten LIKE :search';
+        }
+
+        if (!empty($category_id)) {
+            $sql .= ' AND product.id_danhmuc = :category_id';
+        }
+
+        if (!empty($gia_min)) {
+            $sql .= ' AND product.gia_coso >= :gia_min';
+        }
+
+        if (!empty($gia_max)) {
+            $sql .= ' AND product.gia_coso <= :gia_max';
+        }
+
+        $sql .= " ORDER BY product.gia_coso $sort LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($search)) {
+            $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+        }
+
+        if (!empty($category_id)) {
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        }
+
+        if (!empty($gia_min)) {
+            $stmt->bindValue(':gia_min', $gia_min, PDO::PARAM_INT);
+        }
+
+        if (!empty($gia_max)) {
+            $stmt->bindValue(':gia_max', $gia_max, PDO::PARAM_INT);
+        }
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+    public function countSanPhamDaLoc($search = '', $category_id = null, $gia_min = null, $gia_max = null)
+    {
+        $sql = 'SELECT COUNT(*) as total FROM product WHERE 1';
+
+        if (!empty($search)) {
+            $sql .= ' AND ten LIKE :search';
+        }
+
+        if (!empty($category_id)) {
+            $sql .= ' AND id_danhmuc = :category_id';
+        }
+
+        if (!empty($gia_min)) {
+            $sql .= ' AND gia_coso >= :gia_min';
+        }
+
+        if (!empty($gia_max)) {
+            $sql .= ' AND gia_coso <= :gia_max';
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($search)) {
+            $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+        }
+
+        if (!empty($category_id)) {
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        }
+
+        if (!empty($gia_min)) {
+            $stmt->bindValue(':gia_min', $gia_min, PDO::PARAM_INT);
+        }
+
+        if (!empty($gia_max)) {
+            $stmt->bindValue(':gia_max', $gia_max, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return $result['total'];
+    }
+
     public function chitiet($id) {
         try {
             $sql = 'SELECT product.*, category.ten AS ten_danhmuc

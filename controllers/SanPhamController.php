@@ -2,17 +2,46 @@
 class SanPhamController {
     public $modelSanPham;
     public $modelBinhLuan;
+    public $modelDanhMuc;
 
     public function __construct() {
         $this->modelSanPham = new SanPham();
         $this->modelBinhLuan = new BinhLuan();
+        $this->modelDanhMuc = new DanhMuc();
     }
 
     public function show() {
-        $id = $_GET['id_danhmuc'];
+        $id = $_GET['id_danhmuc'] ?? null;
         $listSanPham = $this->modelSanPham->chitiet($id);
+        $cate = $this->modelDanhMuc->getOneDanhMuc($id);
 
         require './views/sanphamDM.php';
+    }
+
+    public function danhSachSanPham()
+    {
+        $model = new SanPham();
+        $modelDanhMuc = new DanhMuc();
+
+        // Lấy dữ liệu lọc từ URL
+        $search = $_GET['search'] ?? '';
+        $danhmuc = $_GET['danhmuc'] ?? null;
+        $gia_min = $_GET['gia_min'] ?? null;
+        $gia_max = $_GET['gia_max'] ?? null;
+        $sort = $_GET['sort'] ?? 'asc';
+
+        // Phân trang
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 8;
+        $offset = ($page - 1) * $limit;
+
+        $listSanPham = $model->getSanPhamDaLoc($limit, $offset, $sort, $search, $danhmuc, $gia_min, $gia_max);
+        $totalSp = $model->countSanPhamDaLoc($search, $danhmuc, $gia_min, $gia_max);
+        $totalPage = ceil($totalSp / $limit);
+
+        $listDanhMuc = $modelDanhMuc->getAllDanhMuc();
+
+        require_once './views/sanPham.php';
     }
 
     public function chitietSP() {
@@ -74,8 +103,11 @@ class SanPhamController {
                     $this->modelSanPham->addDetailGioHang($gio_hang['id'], $id_san_pham, $so_luong);
                 }
 
+                $_SESSION['success_message'] = "Đã thêm vào giỏ hàng thành công!";
                 // Chuyển hướng đến giỏ hàng
                 header('Location: ?act=gio-hang');
+                exit();
+
             } else {
                 // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
                 header("Location: ?act=form-dang-nhap-client");
@@ -112,14 +144,45 @@ class SanPhamController {
         }
     }
 
+    public function capNhatGioHang()
+    {
+        // Đảm bảo chỉ xử lý khi gọi đúng route và bằng POST
+        if ($_GET['act'] !== 'cap-nhat-gio-hang' || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return; // Không làm gì cả
+        }
+
+        $id_san_pham = $_POST['id_san_pham'];
+        $so_luong = $_POST['so_luong'];
+
+        $user = $_SESSION['user_client']['id'] ?? null;
+        if ($user) {
+            $nguoi_dung = $this->modelSanPham->getNguoiDungFromEmail($user);
+            $gio_hang = $this->modelSanPham->getGioHangFromUser($nguoi_dung['id']);
+
+            if ($gio_hang) {
+                // Cập nhật lại số lượng
+                $this->modelSanPham->updateSoLuong($gio_hang['id'], $id_san_pham, $so_luong);
+                echo json_encode(['status' => 'success']);
+                exit;
+            }
+        }
+
+        echo json_encode(['status' => 'error']);
+        exit;
+    }
+
+
+
     public function xoaGioHang()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $id = $_POST['chi_tiet_id'];
             // var_dump($id);die;
+            $_SESSION['success_message'] = "Xoá sản phẩm thành công!";
             $this->modelSanPham->xoa($id);
             header("Location: ?act=gio-hang");
+            exit;
         }
     }
     public function thanhToan()
@@ -202,12 +265,14 @@ class SanPhamController {
                 $this->modelSanPham->clearGioHang($id_KH);
 
 
-                $_SESSION['flash_message'] = "✅ Đặt hàng thành công! ";
+                
                 foreach ($chi_tiet_gio_hang as $item) {
                     //Xử lí khi thanh toán số lượng ở sản phẩm sẽ trừ đi
                     $this->modelSanPham->thanhCong($item['id_san_pham'], $item['so_luong']);
                 }
+                $_SESSION['success_message'] = "Đặt hàng thành công!";
                 header('Location: ?act=lich-su-mua-hang');
+                exit();
             } else {
                 var_dump("loi dat hang ");
                 die;
@@ -313,11 +378,11 @@ class SanPhamController {
 
             $themBinhLuan = $this->modelBinhLuan->themBinhLuan($id_san_pham, $id_nguoi_dung, $noi_dung, $ngay_dang, $trang_thai);
             if (isset($themBinhLuan)) {
-                $_SESSION['flash_message'] = "Binh luan thanh cong";
+                $_SESSION['success_message'] = "Bình luận thành công!";
             } else {
-                $_SESSION['flash_message'] = "Binh luan ko thanh cong";
+                $_SESSION['error_message'] = "Bình luận không thành công";
             }
-
+            
             header("Location: ?act=chi-tiet-sp&id_sanpham=" . $id_san_pham);
             exit();
         }

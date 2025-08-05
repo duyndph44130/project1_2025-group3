@@ -71,7 +71,7 @@ class AdminTaiKhoanController
             $this->modelTaiKhoan->insertTaiKhoan($ten, $ho, $dien_thoai, $dia_chi, $thanhpho, $ngay_capnhat, $email, $mat_khau, $vai_tro);
             
             unset($_SESSION['errors'], $_SESSION['old']);
-            header("Location: " . BASE_URL_ADMIN . '?act=quan-tri');
+            header("Location: " . BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri');
             exit();
         }
     }
@@ -83,7 +83,7 @@ class AdminTaiKhoanController
         if ($quanTri) {
             require_once './views/taikhoan/quantri/editQuanTri.php';
         } else {
-            header("Location: " . BASE_URL_ADMIN . '?act=quan-tri');
+            header("Location: " . BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri');
             exit();
         }
     }
@@ -138,7 +138,7 @@ class AdminTaiKhoanController
             $this->modelTaiKhoan->updateTaiKhoan($id, $ten, $email, $dien_thoai, $ho, $dia_chi, $thanhpho, $vai_tro, $ngay_capnhat);
             
             unset($_SESSION['errors'], $_SESSION['old']);
-            header("Location: " . BASE_URL_ADMIN . '?act=quan-tri');
+            header("Location: " . BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri');
             exit();
         }
     }
@@ -149,7 +149,7 @@ class AdminTaiKhoanController
         $mat_khau = password_hash('123@123ac', PASSWORD_BCRYPT);
 
         $this->modelTaiKhoan->resetPassword($tai_khoan_id, $mat_khau);
-        header("Location: " . BASE_URL_ADMIN . '?act=quan-tri');
+        header("Location: " . BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri');
         exit();
     }
 
@@ -259,7 +259,7 @@ class AdminTaiKhoanController
         } else {
             $_SESSION['error'] = 'ID khách hàng không hợp lệ';
         }
-        header("Location: " . BASE_URL_ADMIN . '?act=quan-tri');
+        header("Location: " . BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri');
         exit();
     }
 }

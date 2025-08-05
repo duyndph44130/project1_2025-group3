@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký</title>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -148,3 +151,34 @@
     </div>
 </body>
 </html>
+<?php if (!empty($_SESSION['success_message'])): ?>
+<script>
+    Swal.fire({
+        title: "Thành công!",
+        text: "<?= $_SESSION['success_message'] ?>",
+        icon: "success",
+        confirmButtonText: "OK"
+    });
+</script>
+<?php unset($_SESSION['success_message']); endif; ?>
+
+<?php if (!empty($_SESSION['error_message'])): ?>
+<script>
+    Swal.fire({
+        title: "Lỗi!",
+        text: "<?= $_SESSION['error_message'] ?>",
+        icon: "error",
+        confirmButtonText: "Đóng"
+    });
+</script>
+<?php unset($_SESSION['error_message']); endif; ?>
+
+<?php if (!empty($_SESSION['warning_message'])): ?>
+<script>
+    Swal.fire({
+        title: "Cảnh báo!",
+        text: "<?= $_SESSION['warning_message'] ?>",
+        icon: "warning"
+    });
+</script>
+<?php unset($_SESSION['warning_message']); endif; ?>

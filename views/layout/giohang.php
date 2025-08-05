@@ -1,18 +1,7 @@
 <?php require_once 'header.php' ?>
 <?php require_once 'menu.php' ?>
 
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ Hàng</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-
-<body class="bg-gray-100 p-8 overflow-x-hidden">
+<body class="bg-gray-100 p-0 overflow-x-hidden">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-8 mb-8">
         <h2 class="text-pink-500 text-2xl font-bold mb-4">Giỏ hàng của bạn</h2>
 
@@ -41,13 +30,26 @@
                             </td>
                             <td class="p-2 text-red-500 font-bold"><?= number_format($gioHang['gia_coso'], 0, ',', '.') . ' đ' ?></td>
                             <td class="p-2">
-                                <input type="number" class="w-16 text-center border rounded-md update-soluong"
+                            <div class="flex items-center gap-2">
+                                <!-- Nút trừ -->
+                                <button type="button"
+                                        class="bg-gray-300 text-gray-800 rounded w-8 h-8 flex justify-center items-center hover:bg-gray-400 quantity-decrease"
+                                        data-id="<?= $gioHang['id_san_pham'] ?>">−</button>
+
+                                <!-- Input số lượng -->
+                                <input type="number"
+                                    class="w-14 text-center border border-gray-300 rounded update-soluong"
                                     data-id="<?= $gioHang['id_san_pham'] ?>"
                                     value="<?= $gioHang['so_luong'] ?>"
                                     min="1"
                                     data-goc="<?= $gioHang['so_luong'] ?>">
-                            </td>
 
+                                <!-- Nút cộng -->
+                                <button type="button"
+                                        class="bg-gray-300 text-gray-800 rounded w-8 h-8 flex justify-center items-center hover:bg-gray-400 quantity-increase"
+                                        data-id="<?= $gioHang['id_san_pham'] ?>">+</button>
+                            </div>
+                            </td>
                             <td class="p-2 font-bold tam-tinh" id="tam-tinh-<?= $gioHang['id_san_pham'] ?>" data-gia="<?= $gioHang['gia_coso'] ?>">
                                 <?= number_format($tam_tinh, 0, ',', '.') . ' đ' ?>
                             </td>
@@ -65,10 +67,25 @@
         </div>
 
         <div class="mt-4 flex">
-            <div class="ml-auto text-right"> <!-- Thêm ml-auto vào đây -->
-                <div class="text-gray-700">TẠM TÍNH: <span class="font-bold" id="tong-tien"><?= number_format($tong_tien, 0, ',', '.') . ' đ' ?></span></div>
-                <div class="text-gray-700">GIAO HÀNG: <span class="font-bold">35.000 đ</span></div>
-                <div class="text-lg font-bold text-gray-900">TỔNG: <span id="tong-tien-cuoi"><?= number_format($tong_tien + 35000, 0, ',', '.') . ' đ' ?></span></div>
+            <div class="ml-auto"> <!-- Thêm ml-auto vào đây -->
+                <?php if (!empty($chi_tiet_gio_hang)): ?>
+                    <div class="ml-auto text-right">
+                        <div class="text-gray-700">
+                            TẠM TÍNH: <span class="font-bold" id="tong-tien"><?= number_format($tong_tien, 0, ',', '.') . ' đ' ?></span>
+                        </div>
+                        <div class="text-gray-700">
+                            GIAO HÀNG: <span class="font-bold">35.000 đ</span>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900">
+                            TỔNG: <span id="tong-tien-cuoi"><?= number_format($tong_tien + 35000, 0, ',', '.') . ' đ' ?></span>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="ml-auto text-center">
+                        <p class="text-center text-red-500 text-lg">Không có sản phẩm nào trong giỏ hàng.</p>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (!empty($chi_tiet_gio_hang)): ?>
                     <a href="?act=thanh-toan">
                         <button class="bg-pink-500 text-white px-6 py-3 rounded-md mt-3 w-full hover:bg-pink-600">
@@ -118,6 +135,44 @@
                 $("#tong-tien-cuoi").text((tong_tien + 35000).toLocaleString("vi-VN") + " đ");
             });
         });
+
+        $(".quantity-increase").click(function () {
+            let id = $(this).data("id");
+            let input = $("input.update-soluong[data-id='" + id + "']");
+            let value = parseInt(input.val()) + 1;
+            input.val(value).trigger("input");
+
+            // Gửi về server
+            $.post("?act=cap-nhat-gio-hang", {id_san_pham: id, so_luong: value});
+        });
+
+        $(".quantity-decrease").click(function () {
+            let id = $(this).data("id");
+            let input = $("input.update-soluong[data-id='" + id + "']");
+            let value = parseInt(input.val());
+
+            if (value > 1) {
+                value = value - 1;
+                input.val(value).trigger("input");
+
+                // Gửi về server
+                $.post("?act=cap-nhat-gio-hang", {id_san_pham: id, so_luong: value});
+            }
+        });
+
+        $(".update-soluong").on("change", function() {
+            let id_san_pham = $(this).data("id");
+            let so_luong = $(this).val();
+
+            $.post("?act=cap-nhat-gio-hang", {
+                id_san_pham: id_san_pham,
+                so_luong: so_luong
+            }, function(res) {
+                // Nếu muốn, bạn có thể xử lý JSON trả về tại đây
+                // location.reload(); // Reload nếu cần
+            });
+        });
+
     </script>
 
 </body>

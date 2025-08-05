@@ -1,62 +1,62 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<header class="bg-gradient-to-r from-pink-400 via-pink-500 to-purple-500 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 flex flex-wrap items-center justify-between py-3">
 
-<header class="bg-blue-500 text-white shadow-md">
-  <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center py-4">
+    <!-- Logo -->
     <div class="flex items-center space-x-3">
-      <img src="./img/logo.png" alt="Logo" class="w-20 h-20">
-      <a href="<?= BASE_URL ?>">
-        <h1 class="text-4xl font-bold tracking-wide">3TV</h1>
+      <a href="<?= BASE_URL . '?act=/' ?>">      
+        <img src="./img/logo3TV.jpg" alt="Logo" class="w-16 h-16 object-contain rounded-full border-2 border-white">
       </a>
+      <a href="<?= BASE_URL . '?act=/' ?>" class="text-3xl font-extrabold tracking-widest uppercase hover:text-yellow-300">3TV</a>
     </div>
 
-    <nav class="hidden md:flex space-x-8 mt-4 md:mt-0 text-lg">
-      <a href="<?= BASE_URL ?>" class="text-white hover:text-green-200 transition">Trang Chủ</a>
-      <a href="<?= BASE_URL . '?act=gioi-thieu' ?>" class="text-white hover:text-green-200 transition">Giới thiệu</a>
-      <a href="<?= BASE_URL . '?act=lien-he' ?>" class="text-white hover:text-green-200 transition">Liên hệ</a>
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex space-x-8 text-lg font-medium">
+      <a href="<?= BASE_URL . '?act=/' ?>" class="hover:text-yellow-300 transition">Trang Chủ</a>
+      <a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>" class="hover:text-yellow-300 transition">Sản Phẩm</a>
+      <a href="<?= BASE_URL . '?act=gioi-thieu' ?>" class="hover:text-yellow-300 transition">Giới thiệu</a>
+      <a href="<?= BASE_URL . '?act=lien-he' ?>" class="hover:text-yellow-300 transition">Liên hệ</a>
     </nav>
 
-    <div class="flex items-center space-x-6 mt-4 md:mt-0">
-      <div class="relative">
-        <form action="?act=search" method="post">
-          <input
-            type="text"
-            placeholder="Tìm sản phẩm yêu thích..."
-            class="px-5 py-3 w-80 md:w-96 rounded-full text-gray-700 focus:ring-2 focus:ring-green-400 focus:outline-none placeholder-gray-500"
-            name="search">
-          <button
-            class="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-green-500">
-            🔍
-          </button>
-        </form>
+    <!-- Tìm kiếm + Tài khoản + Giỏ hàng -->
+    <div class="flex items-center space-x-4 mt-4 md:mt-0">
+      <!-- Search -->
+      <form action="?act=search" method="post" class="relative w-64">
+        <input type="text" name="search"
+                placeholder="Tìm sản phẩm..."
+                class="w-full px-4 py-2 rounded-full text-gray-700 focus:ring-2 focus:ring-yellow-400 outline-none placeholder-gray-400">
+        <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-yellow-500">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+
+      <!-- Số điện thoại -->
+      <div class="hidden lg:flex items-center space-x-1">
+        <i class="fas fa-phone-alt text-xl"></i>
+        <span class="font-semibold">0352614404</span>
       </div>
 
-      <div class="flex items-center space-x-2">
-        <span class="text-2xl font-bold">📞</span>
-        <span class="text-xl font-semibold tracking-wide">0352614404</span>
+      <!-- Tài khoản -->
+      <div class="relative group">
+        <a href="?act=chi-tiet-tai-khoan-client" class="text-white hover:text-yellow-300 text-2xl">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="absolute right-0 w-52 mt-2 bg-white text-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50">
+          <?php if (isset($_SESSION['user_client'])): ?>
+            <ul class="py-2">
+              <li><a href="?act=chi-tiet-tai-khoan-client" class="block px-4 py-2 hover:bg-pink-100">Tài khoản</a></li>
+              <li><a href="?act=lich-su-mua-hang" class="block px-4 py-2 hover:bg-pink-100">Đơn mua</a></li>
+              <li><a href="?act=log-out-client" class="block px-4 py-2 hover:bg-pink-100">Đăng xuất</a></li>
+            </ul>
+          <?php else: ?>
+            <a href="?act=form-dang-nhap-client" class="block px-4 py-2 hover:bg-pink-100">Đăng nhập</a>
+          <?php endif; ?>
+        </div>
       </div>
-    </div>
 
-    <div class="relative group">
-      <a href="?act=chi-tiet-tai-khoan-client" class="text-white flex items-center space-x-2 hover:text-green-200">
-        <i class="fa-regular fa-user text-2xl"></i>
+      <!-- Giỏ hàng -->
+      <a href="<?= BASE_URL . '?act=gio-hang' ?>" class="relative text-white hover:text-yellow-300 text-2xl">
+        <i class="fas fa-shopping-cart"></i>
       </a>
-      <div class="absolute left-0 w-48 bg-white text-gray-800 mt-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity ease-out duration-300 z-50">
-        <?php if (isset($_SESSION['user_client'])): ?>
-          <ul>
-            <li><a href="?act=chi-tiet-tai-khoan-client" class="block px-4 py-2 hover:bg-gray-100 transition">Chi tiết tài khoản</a></li>
-            <li><a href="?act=lich-su-mua-hang" class="block px-4 py-2 hover:bg-gray-100 transition">Đơn mua</a></li>
-            <li><a href="?act=log-out-client" class="block px-4 py-2 hover:bg-gray-100 transition">Logout</a></li>
-          </ul>
-        <?php else: ?>
-          <a class="dropdown-item" href='?act=form-dang-nhap-client'>
-            <span class="align-middle" data-key="t-login">Login</span>
-          </a>
-        <?php endif; ?>
-      </div>
     </div>
-
-    <a href="<?= BASE_URL . '?act=gio-hang' ?>" class="text-white relative">
-      <i class="fa-solid fa-shopping-bag text-2xl"></i>
-    </a>
   </div>
 </header>
