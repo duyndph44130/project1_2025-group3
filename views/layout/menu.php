@@ -38,7 +38,8 @@
 
       <!-- Tài khoản -->
       <div class="relative group">
-        <a href="?act=chi-tiet-tai-khoan-client" class="text-white hover:text-yellow-300 text-2xl">
+        <a href="<?= isset($_SESSION['user_client']) ? '?act=chi-tiet-tai-khoan-client' : '?act=form-dang-nhap-client' ?>" 
+          class="text-white hover:text-yellow-300 text-2xl">
           <i class="far fa-user"></i>
         </a>
         <div class="absolute right-0 w-52 mt-2 bg-white text-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50">

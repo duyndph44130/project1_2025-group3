@@ -29,7 +29,7 @@
                     <div class="slide fade"><img src="./img/baner2.jpg" class="w-full h-[450px] object-cover"></div>
                     <div class="slide fade"><img src="./img/baner3.jpg" class="w-full h-[450px] object-cover"></div>
                 </div>
-                <div class="absolute top-0 left-0 w-full h-full bg-black/30 flex items-center justify-center">
+                <div class="absolute top-0 left-0 w-full h-full bg-black/20 flex items-center justify-center">
                     <h2 class="text-white text-4xl font-bold tracking-widest drop-shadow-xl">THỜI TRANG 3TV</h2>
                 </div>
             </div>
