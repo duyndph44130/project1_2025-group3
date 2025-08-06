@@ -10,12 +10,14 @@ require_once './controllers/HomeController.php';
 require_once './controllers/SanPhamController.php';
 require_once './controllers/dangNhapClientController.php';
 require_once './controllers/DichVuController.php';
+require_once './controllers/LienHeController.php';
 
 // Require toàn bộ file Models
 require_once './models/SanPham.php';
 require_once './models/DanhMuc.php';
 require_once './models/BinhLuan.php';
 require_once './models/dangNhapClient.php';
+require_once './models/LienHe.php';
 
 
 // Route
@@ -64,6 +66,10 @@ match ($act) {
     'cap-nhat-gio-hang' => (new SanPhamController())->capNhatGioHang(),
     'chi-tiet-mua-hang' => (new SanPhamController())->chiTietMuaHang(),
     'huy-don-hang' => (new SanPhamController())->huyDonHang(),
+    
+    //Liên hệ
+    'form-lien-he' => (new LienHeController())->formLienHe(),
+    'lien-he-submit' => (new LienHeController())->guiLienHe(),
 
     'search' => (new SanPhamController())->search(),
 

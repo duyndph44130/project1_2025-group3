@@ -209,6 +209,36 @@
             </div>
         </div>
         </section>
+
+        <!-- Liên hệ gần đây -->
+        <section>
+        <div class="bg-white shadow rounded-xl">
+            <div class="px-6 py-4 border-b"><h2 class="font-semibold text-gray-700">📧 Liên hệ gần đây</h2></div>
+            <div class="p-4 overflow-x-auto">
+            <table class="min-w-full text-sm divide-y">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-2">Họ tên</th>
+                    <th class="px-4 py-2">Email</th>
+                    <th class="px-4 py-2">Tiêu đề</th>
+                    <th class="px-4 py-2">Ngày gửi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($listLienHe as $lh): ?>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($lh['ten']) ?></td>
+                    <td class="px-4 py-2 text-gray-500"><?= htmlspecialchars($lh['email']) ?></td>
+                    <td class="px-4 py-2 text-gray-500"><?= htmlspecialchars($lh['tieu_de']) ?></td>
+                    <td class="px-4 py-2 text-gray-500"><?= $lh['ngay_gui'] ?></td>
+                </tr>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </section>
+
     </div>
 </div>
 <?php include './views/layout/footer.php'; ?>

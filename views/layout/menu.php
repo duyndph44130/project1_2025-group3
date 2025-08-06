@@ -13,8 +13,9 @@
     <nav class="hidden md:flex space-x-8 text-lg font-medium">
       <a href="<?= BASE_URL . '?act=/' ?>" class="hover:text-yellow-300 transition">Trang Chủ</a>
       <a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>" class="hover:text-yellow-300 transition">Sản Phẩm</a>
-      <a href="<?= BASE_URL . '?act=gioi-thieu' ?>" class="hover:text-yellow-300 transition">Giới thiệu</a>
-      <a href="<?= BASE_URL . '?act=lien-he' ?>" class="hover:text-yellow-300 transition">Liên hệ</a>
+      <a href="<?= BASE_URL . '?act=gioi-thieu' ?>" class="hover:text-yellow-300 transition">Giới Thiệu</a>
+      <a href="<?= BASE_URL . '?act=lien-he' ?>" class="hover:text-yellow-300 transition">Cửa Hàng</a>
+      <a href="<?= BASE_URL . '?act=form-lien-he' ?>" class="hover:text-yellow-300 transition">Liên Hệ</a>
     </nav>
 
     <!-- Tìm kiếm + Tài khoản + Giỏ hàng -->

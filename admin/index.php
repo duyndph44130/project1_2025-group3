@@ -10,6 +10,7 @@ require_once './controller/AdminDanhMucController.php';
 require_once './controller/AdminBinhLuanController.php';
 require_once './controller/AdminDonHangController.php';
 require_once './controller/AdminTaiKhoanController.php';
+require_once './controller/AdminLienHeController.php';
 require_once './controller/AdminBaoCaoThongKeController.php';
 
 // require toan bo file model
@@ -17,6 +18,7 @@ require_once './models/AdminSanPham.php';
 require_once './models/AdminDanhMuc.php';
 require_once './models/AdminBinhLuan.php';
 require_once './models/AdminDonHang.php';
+require_once './models/AdminLienHe.php';
 require_once './models/AdminTaiKhoan.php';
 
 // route
@@ -73,6 +75,11 @@ match ($act) {
     'login-admin' => (new AdminTaiKhoanController())->formLogin(),
     'check-login-admin' => (new AdminTaiKhoanController())->login(),
     'logout-admin' => (new AdminTaiKhoanController())->logout(),
+
+    // ==================== Liên hệ =======================
+    'lien-he' => (new AdminLienHeController())->danhSachLienHe(),
+    'chi-tiet-lien-he' => (new AdminLienHeController())->chiTietLienHe(),
+    'xoa-lien-he' => (new AdminLienHeController())->xoaLienHe(),
 
 
     // ==================== Mặc định ====================

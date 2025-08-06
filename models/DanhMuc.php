@@ -1,6 +1,6 @@
-<?php 
+<?php
 class DanhMuc {
-    public $conn;
+    private $conn;
 
     public function __construct() {
         $this->conn = connectDB();
@@ -8,27 +8,24 @@ class DanhMuc {
 
     public function getAllDanhMuc() {
         try {
-            $sql = "SELECT * FROM category";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->conn->prepare("SELECT * FROM category");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            echo "Thất bại: " . $e->getMessage();
+        } catch (PDOException $e) {
+            echo "Lỗi: " . $e->getMessage();
+            return [];
         }
     }
 
-    public function getOneDanhMuc($id)
-    {
+    public function getOneDanhMuc($id) {
         try {
-            $sql = "SELECT * FROM category WHERE id = :id";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->conn->prepare("SELECT * FROM category WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetch();
-        } catch (Exception $e) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             echo "Lỗi: " . $e->getMessage();
-            return null;
+            return false;
         }
     }
-
 }
