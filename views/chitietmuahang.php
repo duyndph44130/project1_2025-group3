@@ -1,7 +1,7 @@
 <?php require_once 'layout/header.php'; ?>
 <?php require_once 'layout/menu.php'; ?>
 
-<body class="bg-pink-100 p-6 overflow-x-hidden">
+<body class="bg-pink-100 overflow-x-hidden">
     <div class="container mx-auto max-w-5xl bg-white p-6 rounded-lg shadow-lg mt-8 mb-8">
         <h2 class="text-2xl font-bold text-pink-500 text-center mb-6">Thông Tin Đơn Hàng</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

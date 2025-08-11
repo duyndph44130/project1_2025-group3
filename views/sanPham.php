@@ -74,7 +74,7 @@
             </div>
 
             <!-- Phân trang -->
-            <?php if ($totalPage > 1): ?>
+            <?php if ($totalPages > 1): ?>
                 <div class="flex justify-center space-x-2">
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                         <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"

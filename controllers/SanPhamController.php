@@ -37,7 +37,7 @@ class SanPhamController {
 
         $listSanPham = $model->getSanPhamDaLoc($limit, $offset, $sort, $search, $danhmuc, $gia_min, $gia_max);
         $totalSp = $model->countSanPhamDaLoc($search, $danhmuc, $gia_min, $gia_max);
-        $totalPage = ceil($totalSp / $limit);
+        $totalPages = ceil($totalSp / $limit);
 
         $listDanhMuc = $modelDanhMuc->getAllDanhMuc();
 
@@ -348,6 +348,8 @@ class SanPhamController {
 
             //Lấy danh sách sản phẩm đơn hàng khi đã hủy vẫn xem đc chi tiết
             $this->modelSanPham->getChiTietDonHang($donHangId);
+
+            $_SESSION['success_message'] = "Huỷ đơn hàng thành công!";
 
             header('Location: ?act=lich-su-mua-hang');
             exit();

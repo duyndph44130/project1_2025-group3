@@ -76,7 +76,7 @@
                 <?php foreach ($listDanhMuc as $dm): ?>
                     <a href="<?= BASE_URL . '?act=san-pham&id_danhmuc=' . $dm['id'] ?>"
                         class="bg-gradient-to-tr from-white to-pink-50 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition text-center p-5">
-                        <img src="./img/logo.png" alt="<?= $dm['ten'] ?>" class="w-full h-32 object-contain mb-3">
+                        <img src="img/logo3TV.jpg" alt="<?= $dm['ten'] ?>" class="w-full h-32 object-contain mb-3">
                         <p class="text-purple-700 font-semibold text-lg">#<?= $dm['ten'] ?></p>
                     </a>
                 <?php endforeach ?>

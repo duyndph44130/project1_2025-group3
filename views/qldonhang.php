@@ -65,5 +65,71 @@
         text: '<?= $_SESSION['success_message'] ?>',
         confirmButtonText: 'OK'
     });
+
+        $(document).ready(function() {
+        $(".update-soluong").each(function() {
+            $(this).val($(this).attr("data-goc")); // Reset số lượng về giá trị gốc
+        });
+
+        $(".update-soluong").on("input", function() {
+            let id_san_pham = $(this).data("id");
+            let so_luong = $(this).val();
+            let gia_coso = parseInt($("#tam-tinh-" + id_san_pham).attr("data-gia")); // Lấy giá sản phẩm từ data-gia
+
+            if (so_luong < 1) {
+                so_luong = 1;
+                $(this).val(1);
+            }
+
+            let tam_tinh = gia_coso * so_luong;
+            $("#tam-tinh-" + id_san_pham).text(tam_tinh.toLocaleString("vi-VN") + " đ");
+
+            let tong_tien = 0;
+            $(".tam-tinh").each(function() {
+                tong_tien += parseInt($(this).text().replace(/\D/g, ""));
+            });
+
+            $("#tong-tien").text(tong_tien.toLocaleString("vi-VN") + " đ");
+            $("#tong-tien-cuoi").text((tong_tien + 35000).toLocaleString("vi-VN") + " đ");
+        });
+    });
+
+    $(".quantity-increase").click(function () {
+        let id = $(this).data("id");
+        let input = $("input.update-soluong[data-id='" + id + "']");
+        let value = parseInt(input.val()) + 1;
+        input.val(value).trigger("input");
+
+        // Gửi về server
+        $.post("?act=cap-nhat-gio-hang", {id_san_pham: id, so_luong: value});
+    });
+
+    $(".quantity-decrease").click(function () {
+        let id = $(this).data("id");
+        let input = $("input.update-soluong[data-id='" + id + "']");
+        let value = parseInt(input.val());
+
+        if (value > 1) {
+            value = value - 1;
+            input.val(value).trigger("input");
+
+            // Gửi về server
+            $.post("?act=cap-nhat-gio-hang", {id_san_pham: id, so_luong: value});
+        }
+    });
+
+    $(".update-soluong").on("change", function() {
+        let id_san_pham = $(this).data("id");
+        let so_luong = $(this).val();
+
+        $.post("?act=cap-nhat-gio-hang", {
+        id_san_pham: id_san_pham,
+        so_luong: so_luong
+        }, function(res) {
+            // Nếu muốn, bạn có thể xử lý JSON trả về tại đây
+            // location.reload(); // Reload nếu cần
+        });
+    });
 </script>
-<?php unset($_SESSION['success_message']); endif; ?>
+<?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
