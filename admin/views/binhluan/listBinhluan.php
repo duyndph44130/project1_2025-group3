@@ -42,8 +42,9 @@
                                             <td><?= $binhluan['ngay_dang'] ?></td>
                                             <td>
                                                 <a href="<?= BASE_URL_ADMIN . '?act=edit-trangthai&id_binhluan=' . $binhluan['id'] ?>">
-                                                    <button class="btn btn-danger">Sửa</button>
-                                                </a>                                                <a href="<?= BASE_URL_ADMIN . '?act=xoa-binh-luan&id_binhluan=' . $binhluan['id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa bình luận này?')">
+                                                    <button class="btn btn-warning">Sửa</button>
+                                                </a>                                                
+                                                <a href="<?= BASE_URL_ADMIN . '?act=xoa-binh-luan&id_binhluan=' . $binhluan['id'] ?>" onclick="return confirm('Bạn có chắc muốn xóa bình luận này?')">
                                                     <button class="btn btn-danger">Xóa</button>
                                                 </a>
                                             </td>

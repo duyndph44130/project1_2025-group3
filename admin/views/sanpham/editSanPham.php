@@ -80,8 +80,8 @@ unset($_SESSION['errors'], $_SESSION['old']);
             <div class="form-group">
                 <label>Trạng thái</label>
                 <select class="form-control <?= inputError('trang_thai', $error) ?>" name="trang_thai">
-                <option value="1" <?= ($old['trang_thai'] ?? $sanpham['trang_thai']) == 1 ? 'selected' : '' ?>>Có sẵn</option>
-                <option value="2" <?= ($old['trang_thai'] ?? $sanpham['trang_thai']) == 2 ? 'selected' : '' ?>>Hết hàng</option>
+                    <option value="có sẵn" <?= ($old['trang_thai'] ?? $sanpham['trang_thai']) == 'có sẵn' ? 'selected' : '' ?>>Có sẵn</option>
+                    <option value="không có sẵn" <?= ($old['trang_thai'] ?? $sanpham['trang_thai']) == 'không có sẵn' ? 'selected' : '' ?>>Hết hàng</option>
                 </select>
                 <?= errorText('trang_thai', $error) ?>
             </div>

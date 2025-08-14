@@ -43,6 +43,7 @@ class AdminSanPhamController
             $ma_hang = trim($_POST['ma_hang'] ?? '');
             $trang_thai = $_POST['trang_thai'] ?? '';
             $mota = trim($_POST['mota'] ?? '');
+            $ngay_capnhat = str_replace('T', ' ', $ngay_capnhat);
 
             $error = [];
 
@@ -65,18 +66,23 @@ class AdminSanPhamController
                 $error['ngay_capnhat'] = 'Ngày cập nhật không được để trống.';
             } else {
                 $ngay_capnhat = str_replace('T', ' ', $ngay_capnhat);
-                if (!DateTime::createFromFormat('Y-m-d H:i:s', $ngay_capnhat)) {
-                    $error['ngay_capnhat'] = 'Ngày cập nhật không hợp lệ.';
-                }
+            if (
+                !DateTime::createFromFormat('Y-m-d H:i', $ngay_capnhat) &&
+                !DateTime::createFromFormat('Y-m-d H:i:s', $ngay_capnhat)
+            ) {
+                $error['ngay_capnhat'] = 'Ngày cập nhật không hợp lệ.';
+            }
+
             }
 
             if (empty($id_danhmuc) || !is_numeric($id_danhmuc)) {
                 $error['id_danhmuc'] = 'Vui lòng chọn danh mục hợp lệ.';
             }
 
-            if (empty($trang_thai) || !in_array($trang_thai, ['active', 'inactive'])) {
+            if (empty($trang_thai) || !in_array($trang_thai, ['có sẵn', 'không có sẵn'])) {
                 $error['trang_thai'] = 'Vui lòng chọn trạng thái hợp lệ.';
             }
+
 
             // Validate hình ảnh
             if (isset($_FILES['hinhanh']) && $_FILES['hinhanh']['error'] === UPLOAD_ERR_OK) {
@@ -160,35 +166,43 @@ class AdminSanPhamController
 
             $error = [];
 
-            // Validate dữ liệu
+            // Validate tên
             if (empty($ten)) {
                 $error['ten'] = 'Tên sản phẩm không được để trống.';
             } elseif (strlen($ten) < 3 || strlen($ten) > 100) {
                 $error['ten'] = 'Tên sản phẩm phải từ 3 đến 100 ký tự.';
             }
 
+            // Validate giá
             if (empty($gia_coso) || !is_numeric($gia_coso) || $gia_coso <= 0) {
                 $error['gia_coso'] = 'Giá sản phẩm phải là số lớn hơn 0.';
             }
 
+            // Validate số lượng
             if (empty($cosan_stock) || !is_numeric($cosan_stock) || $cosan_stock < 0) {
                 $error['cosan_stock'] = 'Số lượng phải là số không âm.';
             }
 
+            // Validate ngày (cho phép cả H:i và H:i:s)
             if (empty($ngay_capnhat)) {
                 $error['ngay_capnhat'] = 'Ngày cập nhật không được để trống.';
             } else {
                 $ngay_capnhat = str_replace('T', ' ', $ngay_capnhat);
-                if (!DateTime::createFromFormat('Y-m-d H:i:s', $ngay_capnhat)) {
+                if (
+                    !DateTime::createFromFormat('Y-m-d H:i', $ngay_capnhat) &&
+                    !DateTime::createFromFormat('Y-m-d H:i:s', $ngay_capnhat)
+                ) {
                     $error['ngay_capnhat'] = 'Ngày cập nhật không hợp lệ.';
                 }
             }
 
+            // Validate danh mục
             if (empty($id_danhmuc) || !is_numeric($id_danhmuc)) {
                 $error['id_danhmuc'] = 'Vui lòng chọn danh mục hợp lệ.';
             }
 
-            if (empty($trang_thai) || !in_array($trang_thai, ['active', 'inactive'])) {
+            // Validate trạng thái (khớp enum DB)
+            if (empty($trang_thai) || !in_array($trang_thai, ['có sẵn', 'không có sẵn'])) {
                 $error['trang_thai'] = 'Vui lòng chọn trạng thái hợp lệ.';
             }
 
@@ -204,12 +218,12 @@ class AdminSanPhamController
                     $file_thumb = upLoadFile($hinhanh, './uploads/');
                 }
             } else {
-                // Use existing image if no new upload
+                // Giữ ảnh cũ nếu không upload mới
                 $sp = $this->modelSanPham->getDetailSanPham($id);
                 $file_thumb = $sp['hinhanh'] ?? '';
             }
 
-            // Nếu có lỗi thì lưu vào session và chuyển hướng
+            // Nếu có lỗi thì quay lại form
             if (!empty($error)) {
                 $_SESSION['errors'] = $error;
                 $_SESSION['old'] = $_POST;
